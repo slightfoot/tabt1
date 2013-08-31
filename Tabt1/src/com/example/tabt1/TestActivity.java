@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 
@@ -13,7 +14,8 @@ public class TestActivity extends FragmentActivity
 {
 	private static final String TAG_TASK1 = "tagTask1";
 	private PauseTask mTask1;
-	private TextView mResponse;
+	private Button    mRequest;
+	private TextView  mResponse;
 	
 	
 	@Override
@@ -31,7 +33,8 @@ public class TestActivity extends FragmentActivity
 		setContentView(R.layout.activity_test);
 		
 		mResponse = (TextView)findViewById(R.id.response);
-		findViewById(R.id.request).setOnClickListener(new View.OnClickListener()
+		mRequest  = (Button)findViewById(R.id.request);
+		mRequest.setOnClickListener(new View.OnClickListener()
 		{
 			@Override
 			public void onClick(View v)
