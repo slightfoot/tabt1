@@ -4,10 +4,12 @@ import java.io.IOException;
 
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.content.res.Resources.NotFoundException;
 import android.util.Log;
 import android.view.View;
@@ -30,6 +32,8 @@ public class MainActivity extends Activity
 	private EditText mTextSong;
 	private Button   mPlayButton;
 	
+	private AsyncTask mAsyncTask;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -38,7 +42,8 @@ public class MainActivity extends Activity
 		
 		mSongPlayback = (SongPlayback)getLastNonConfigurationInstance();
 		if(mSongPlayback == null){
-			mSongPlayback = new SongPlayback(getApplicationContext());
+			Context c = getApplicationContext();
+			mSongPlayback = new SongPlayback(c);
 		}
 		
 		setContentView(R.layout.activity_main);
@@ -55,6 +60,29 @@ public class MainActivity extends Activity
 				mSongPlayback.stop();
 				mSongPlayback.setSongParts(mTextSong.getText().toString());
 				mSongPlayback.play();
+				
+				mAsyncTask = new AsyncTask<Void, Void, Void>()
+				{
+					@Override
+					protected Void doInBackground(Void... params)
+					{
+						try{
+							Log.e(TAG, "Started");
+							Thread.sleep(10000);
+						}
+						catch(InterruptedException e){
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						return null;
+					}
+					
+					protected void onPostExecute(Void result)
+					{
+						Log.e(TAG, "Post");
+						mTextDisplay.setText("Blah");
+					};
+				}.execute();
 			}
 		});
 	}
